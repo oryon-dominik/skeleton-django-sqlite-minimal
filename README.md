@@ -17,4 +17,4 @@ to work with notebooks, set
 
 fix the settings in settings.py, don't use the `.env`
 
-## for docker, postgreSQL, redis & celery see the more advanced skeleton
+## for docker, postgreSQL, redis & celery see the more advanced skeleton (still tba)
