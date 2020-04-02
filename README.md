@@ -11,7 +11,7 @@
 ## notebooks
 
 to work with notebooks, set
-DJANGO_ALLOW_ASYNC_UNSAFE=true in your .env
+`DJANGO_ALLOW_ASYNC_UNSAFE=true` in your `.env`
 
 ## production
 
