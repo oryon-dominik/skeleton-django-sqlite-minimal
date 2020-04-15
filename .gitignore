@@ -14,7 +14,7 @@
 /.env
 
 # migrations are only committed for production
-**/migrations/
+**/migrations/*
 !**/migrations/__init__.py
 
 # the database is only committed for production
