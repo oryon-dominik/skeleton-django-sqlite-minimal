@@ -18,4 +18,9 @@ to work with notebooks, set
 
 fix the settings in settings.py, don't use the `.env`
 
-## for docker, postgreSQL, redis & celery see the more advanced skeleton (still tba)
+## other skeletons
+
+[minimal django sqlite](https://github.com/oryon-dominik/skeleton-django-sqlite-minimal) (this repo)
+[minimal django with a small CRUD example](https://github.com/oryon-dominik/skeleton-django-sqlite-crud)
+[django with postgres & docker](https://github.com/oryon-dominik/skeleton-django-postgres-docker)
+[minimal django integrated with vue & parceljs](https://github.com/oryon-dominik/skeleton-django-vue-parceljs)
