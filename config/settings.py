@@ -215,12 +215,13 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
+# static folder is renamed to assets (see Jacob Kaplan-Moss - Assets in Django without losing your hair form PyCon 2019 : https://www.youtube.com/watch?v=E613X3RBegI)
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-root
 STATIC_ROOT = str(ROOT_DIR("staticfiles"))
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-STATIC_URL = '/static/'
+STATIC_URL = '/assets/'
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
-STATICFILES_DIRS = [str(ROOT_DIR.path("static"))]
+STATICFILES_DIRS = [str(ROOT_DIR.path("assets"))]
 
 # jupyter-notebook
 
