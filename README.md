@@ -5,9 +5,11 @@
 1. clone the repo, delete .git, create a new git repo
 2. setup name & description in `pyproject.toml`
 3. `poetry install`
-4. `python manage.py makemigrations`
-5. `python manage.py migrate`
-6. happy-coding
+4. `poetry shell` to activate your env
+5. `python manage.py makemigrations`
+6. `python manage.py migrate`
+7. `python manage.py runserver` exposes the server on localhost:8000
+8. happy-coding
 
 ## notebooks
 
