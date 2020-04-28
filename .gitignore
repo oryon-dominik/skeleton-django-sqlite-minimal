@@ -8,7 +8,7 @@
 
 # vscode/settings
 /.vscode/*
-# .code-workspace
+*.code-workspace
 
 # local-config
 /.env
@@ -22,6 +22,9 @@ database/sqlite.db
 
 # jupyter
 notebooks/.ipynb_checkpoints/
+
+# ignoring the lockfile
+poetry.lock
 
 ### Python ###
 # precompiled
