@@ -5,10 +5,9 @@
 1. clone the repo, delete .git, create a new git repo
 2. setup name & description in `pyproject.toml`
 3. `poetry install`
-4. rename and config your `sekeleton.code-workspace` settings
-5. `python manage.py makemigrations`
-6. `python manage.py migrate`
-7. happy-coding
+4. `python manage.py makemigrations`
+5. `python manage.py migrate`
+6. happy-coding
 
 ## notebooks
 
