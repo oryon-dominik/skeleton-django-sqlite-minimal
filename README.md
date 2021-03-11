@@ -13,12 +13,13 @@
 
 ## notebooks
 
-to work with notebooks, set
-`DJANGO_ALLOW_ASYNC_UNSAFE=true` in your `.env`
+to work with notebooks, set `DJANGO_ALLOW_ASYNC_UNSAFE=true` in your `.env`
+
+    manage.py shell_plus --notebook
 
 ## production
 
-fix the settings in settings.py, don't use the `.env`
+fix the settings in settings.py
 
 ## other skeletons
 

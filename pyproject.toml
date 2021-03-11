@@ -1,15 +1,16 @@
 [tool.poetry]
 name = "skeleton-django-sqlite-minmal"
-version = "0.1.0"
+version = "0.2.0"
 description = "providing a basic django structure to start of your projects"
 authors = ["oryon-dominik <oryon@cyberise.de>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
-django = "^3.0.5"
+python = "^3.9"
+django = "^3.1.7"
 django-environ = "^0.4.5"
 django-extensions = "^2.2.9"
-django-crispy-forms = "^1.9.0"
+django-widget-tweaks = "^1.4.8"
+django-debug-toolbar = "^3.2"
 
 [tool.poetry.dev-dependencies]
 jupyter = "^1.0.0"

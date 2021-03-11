@@ -1,4 +1,4 @@
-## GIT is ignoring... (# Created by oryon-dominik)
+# gitignore
 
 # git itself
 .git
@@ -9,15 +9,10 @@
 # vscode/settings
 .vscode
 
-
 # local-config
 .env
 
-# migrations are only committed for production
-**/migrations/*
-!**/migrations/__init__.py
-
-# the database is only committed for production
+# database
 database/sqlite.db
 
 # jupyter

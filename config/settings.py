@@ -1,52 +1,59 @@
 """
 Django settings
 
-For more information on this file, see
-https://docs.djangoproject.com/en/3.0/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/3.0/ref/settings/
+[introduction](https://docs.djangoproject.com/en/dev/topics/settings/)
+[documentation](https://docs.djangoproject.com/en/dev/ref/settings/)
 """
 
-import os
 import environ
+from pathlib import Path
 
-# import project-specific settings
-from .project import * #noqa
+#======PROJECT-SPECIFIC-SETTINGS===============================================
+PROJECT_TITLE = "skeleton-django-sqlite-minmal"
+#==============================================================================
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
+# Build paths inside the project like this: ROOT_DIR / 'subdir'.
+ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent
+APPS_DIR = ROOT_DIR / 'apps'
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ROOT_DIR = (
-    environ.Path(__file__) - 2
-)  # (giftbox/config/settings.py - 2 = giftbox/)
-APPS_DIR = ROOT_DIR.path("apps")
-
-# Load operating system environment variables and then prepare to use them
 env = environ.Env()
-
-# .env file, should load only in development environment FIXME
 READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=True)
 if READ_DOT_ENV_FILE:
     # OS environment variables take precedence over variables from .env
-    env.read_env(str(ROOT_DIR.path(".env")))
+    env.read_env(str(ROOT_DIR / ".env"))
 
-# GENERAL
-# ------------------------------------------------------------------------------
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = env.str("DJANGO_SECRET_KEY", default="Cebo23BMtvLwJ0Q_4UZQMRAHlpTEiJjGZDFWI!R")
+
+# SECURITY WARNING: don't run with debug turned on in production!
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = env.bool("DJANGO_DEBUG", False)
-DEBUG = True  # FIXME: in development only!
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["localhost"]
-
-SECRET_KEY = env(
-    "DJANGO_SECRET_KEY", default="8h-e74i6w1svt5im2n@!=3t5sl7+73%ssm1ly%l^pfksm!x95!"
-)
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 
-# Application definition
+# DATABASES
+# -----------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/dev/ref/settings/#databases
+
+# postgres:
+# POSTGRES_DB = env.str("POSTGRES_DB")
+# POSTGRES_USER = env.str("POSTGRES_USER")
+# POSTGRES_PASSWORD = env.str("POSTGRES_PASSWORD")
+# POSTGRES_HOST = env.str("POSTGRES_HOST")
+# POSTGRES_PORT = env.int("POSTGRES_PORT")
+# DATABASE_URL = f"postgres://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
+# DATABASES = {"default": env.db("DATABASE_URL", default=DATABASE_URL)}
+
+# sqlite:
+DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': ROOT_DIR / 'database' / 'sqlite.db'}}
+DATABASES["default"]["ATOMIC_REQUESTS"] = True
+
+
+# APPS
+# -----------------------------------------------------------------------------
 LOCAL_APPS = [
     # custom apps
     "apps.users.apps.UsersConfig",
@@ -63,13 +70,47 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-    "crispy_forms",
     "django_extensions",
+    'widget_tweaks',
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 # local apps shall override djangos default, so order is important
 INSTALLED_APPS = LOCAL_APPS + DJANGO_APPS + THIRD_PARTY_APPS
+
+
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+
+ROOT_URLCONF = 'config.urls'
+
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [str(ROOT_DIR / "templates")],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+
+WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # users
@@ -83,53 +124,47 @@ LOGOUT_REDIRECT_URL = "users:login"
 LOGIN_URL = "users:login"
 
 # Django Admin URL.
-ADMIN_URL = "admin/"
+ADMIN_URL = env.str("DJANGO_ADMIN_URL", default="secretadmin-bonhyAsTh/")
 
-# crispy forms
-# http://django-crispy-forms.readthedocs.io/en/latest/install.html#template-packs
-CRISPY_TEMPLATE_PACK = "bootstrap4"
+# Password validation
+# https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
-
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
-
-ROOT_URLCONF = 'config.urls'
-
-TEMPLATES = [
+AUTH_PASSWORD_VALIDATORS = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [str(ROOT_DIR.path("templates"))],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
 
+# localization-----------------------------------------------------------------
+# Internationalization
+# https://docs.djangoproject.com/en/dev/topics/i18n/
+LANGUAGE_CODE = "en-us"
+# german localization: LANGUAGE_CODE = 'de-de'
+TIME_ZONE = "UTC"
+# german localization: TIME_ZONE = "Europe/Berlin"
+USE_I18N = True
+USE_L10N = True
+USE_TZ = True
 
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+# Static files (CSS, JavaScript, Images)
+# static folder is renamed to assets (see Jacob Kaplan-Moss - Assets in Django without losing your hair form PyCon 2019 : https://www.youtube.com/watch?v=E613X3RBegI)
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#static-root
+STATIC_ROOT = str(ROOT_DIR / "staticfiles")
+# https://docs.djangoproject.com/en/dev/howto/static-files/
+STATIC_URL = '/assets/'
+# See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
+STATICFILES_DIRS = [str(ROOT_DIR / "assets")]
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'database/sqlite.db'),
-    }
-}
 
 # LOGGING
 # ------------------------------------------------------------------------------
@@ -156,6 +191,9 @@ LOGGING = {
         'require_debug_true': {
             '()': 'django.utils.log.RequireDebugTrue',
         },
+        'log_database_queries': {
+            '()': 'config.logfilters.LogDatabaseQueriesFilter',
+        },
     },
     "handlers": {
         "console": {
@@ -164,11 +202,16 @@ LOGGING = {
             "class": "logging.StreamHandler",
             "formatter": "simple",
         },
-
         'requests_file': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': str(ROOT_DIR.path("logs/requests.log")),
+            'filename': str(ROOT_DIR / "logs" / "requests.log"),
+        },
+        'database_queries_file': {
+            'level': 'DEBUG',
+            'filters': ['log_database_queries'],
+            'class': 'logging.FileHandler',
+            'filename': str(ROOT_DIR / "logs" / "database_queries.log"),
         },
     },
     'loggers': {
@@ -177,67 +220,48 @@ LOGGING = {
             'level': 'INFO',
             'propagate': True,
             },
+        'django.db.backends': {
+            'level': 'DEBUG',
+            'handlers': ['database_queries_file'],
+            'propagate': True,
+        }
     }
 }
+# The logging-filter 'log_database_queries' will log to the file, if LOG_DATABASE is True
+# Turn it only on in develop
+LOG_DATABASE = False
 
 
-# Password validation
-# https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
+# django-extensions------------------------------------------------------------
+# debug-toolbar
+def show_toolbar(request):
+    return False #True
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
-
-
-# Internationalization
-# https://docs.djangoproject.com/en/3.0/topics/i18n/
-
-LANGUAGE_CODE = 'de-de'
-
-TIME_ZONE = "Europe/Berlin"
-
-USE_I18N = True
-
-USE_L10N = True
-
-USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# static folder is renamed to assets (see Jacob Kaplan-Moss - Assets in Django without losing your hair form PyCon 2019 : https://www.youtube.com/watch?v=E613X3RBegI)
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#static-root
-STATIC_ROOT = str(ROOT_DIR("staticfiles"))
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
-STATIC_URL = '/assets/'
-# See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
-STATICFILES_DIRS = [str(ROOT_DIR.path("assets"))]
-
-# jupyter-notebook
+if DEBUG:
+    DEBUG_TOOLBAR_PATCH_SETTINGS = False
+    INSTALLED_APPS += [
+        'debug_toolbar',
+    ]
+    MIDDLEWARE.insert(4, "debug_toolbar.middleware.DebugToolbarMiddleware")
+    # trick to have debug toolbar when developing with docker
+    DEBUG_TOOLBAR_CONFIG = {
+        'SHOW_TOOLBAR_CALLBACK': show_toolbar,
+    }
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "config.finders.AssetsAppDirectoriesFinder",
 ]
 
+# jupyter-notebook-------------------------------------------------------------
 IPYTHON_ARGUMENTS = ["--debug", "--settings=config.settings"]
-
 NOTEBOOK_ARGUMENTS = [
     "--port", "8890",
     "--ip", "0.0.0.0",
     "--allow-root",
     "--notebook-dir", "notebooks",
     "--no-browser"
-    ]
+]
 # to run the notebook with django 3 async set env DJANGO_ALLOW_ASYNC_UNSAFE=true
