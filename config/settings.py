@@ -49,6 +49,7 @@ ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 # sqlite:
 DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': ROOT_DIR / 'database' / 'sqlite.db'}}
+
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 
