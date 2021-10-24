@@ -32,7 +32,6 @@ Fix the settings in settings.py, (remember to set `DEBUG=false` in production!)
 
 ## other skeletons
 
-[minimal django sqlite](https://github.com/oryon-dominik/skeleton-django-sqlite-minimal) (this repo)  
-[minimal django with a small CRUD example](https://github.com/oryon-dominik/skeleton-django-sqlite-crud)  
+[django minimal sqlite](https://github.com/oryon-dominik/skeleton-django-sqlite-minimal) (this repo)  
 [django with postgres & docker](https://github.com/oryon-dominik/skeleton-django-postgres-docker)  
-[minimal django integrated with vue & parceljs](https://github.com/oryon-dominik/skeleton-django-vue-parceljs)  
+[fastAPI](https://github.com/oryon-dominik/skeleton-fastapi)  
