@@ -1,0 +1,29 @@
+# simple Django server commands.
+
+=PROJECT=======================================================================
+# start a whole new project (named newproject)
+django-admin startproject newproject .
+
+# run the server locally on 127.0.0.1:8000
+python manage.py runserver
+
+# migrate the database
+python manage.py migrate
+
+# create a superuser
+python manage.py createsuperuser
+
+# create an app (named newapp)
+python manage.py startapp newapp
+
+# apply changes to the model
+python manage.py makemigrations
+# migrate after makemigrations, to update the database
+python manage.py migrate
+
+# to open an interactive django-shell and create objects..
+python manage.py shell
+    from users.models import User
+    User.objects.all()
+    User.objects.create(username='test', password='test')
+    ...
